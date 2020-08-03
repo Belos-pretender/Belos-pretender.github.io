@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://belos-pretender.github.io/</id>
     <title>belos</title>
-    <updated>2020-08-03T13:07:33.190Z</updated>
+    <updated>2020-08-03T13:39:17.193Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://belos-pretender.github.io/"/>
     <link rel="self" href="https://belos-pretender.github.io/atom.xml"/>
@@ -10,13 +10,4 @@
     <logo>https://belos-pretender.github.io/images/avatar.png</logo>
     <icon>https://belos-pretender.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, belos</rights>
-    <entry>
-        <title type="html"><![CDATA[This is the first test]]></title>
-        <id>https://belos-pretender.github.io/post/this-is-the-first-test/</id>
-        <link href="https://belos-pretender.github.io/post/this-is-the-first-test/">
-        </link>
-        <updated>2020-08-03T13:05:30.000Z</updated>
-        <content type="html"><![CDATA[<p>Hello world</p>
-]]></content>
-    </entry>
 </feed>
