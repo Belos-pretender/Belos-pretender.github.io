@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://belos-pretender.github.io/</id>
     <title>belos</title>
-    <updated>2020-08-03T13:39:17.193Z</updated>
+    <updated>2020-08-03T16:12:46.496Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://belos-pretender.github.io/"/>
     <link rel="self" href="https://belos-pretender.github.io/atom.xml"/>
@@ -10,4 +10,77 @@
     <logo>https://belos-pretender.github.io/images/avatar.png</logo>
     <icon>https://belos-pretender.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, belos</rights>
+    <entry>
+        <title type="html"><![CDATA[Go json解析]]></title>
+        <id>https://belos-pretender.github.io/post/go-json-jie-xi/</id>
+        <link href="https://belos-pretender.github.io/post/go-json-jie-xi/">
+        </link>
+        <updated>2020-08-03T16:04:42.000Z</updated>
+        <summary type="html"><![CDATA[<p>基于天行数据国内新闻api的解析测试</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>基于天行数据国内新闻api的解析测试</p>
+<!-- more -->
+<figure data-type="image" tabindex="1"><img src="https://belos-pretender.github.io//post-images/1596470754377.png" alt="" loading="lazy"></figure>
+<p>上图为http请求以后返回的json格式数据，根据请求相关的key值，需要在写go代码的时候定义两个结构体</p>
+<figure data-type="image" tabindex="2"><img src="https://belos-pretender.github.io//post-images/1596470765274.png" alt="" loading="lazy"></figure>
+<p>第一个结构体与返回的数据对应，分别是Code，Msg，Newslist，其中结构体中的所有变量名都需要大写否则会导致无法正常解析（这与go的大小写是否可导出有关）</p>
+<figure data-type="image" tabindex="3"><img src="https://belos-pretender.github.io//post-images/1596470773205.png" alt="" loading="lazy"></figure>
+<p>第二个结构体如图所示，与返回的newslist中的key一一对应同样，所有变量名需要大写且与返回的json数据的key对应</p>
+<p>这里使用到了一个简单的结构体嵌套，在第一个结构体中使用到了 []news</p>
+<pre><code>具体解析代码如下
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://belos-pretender.github.io//post-images/1596470783390.png" alt="" loading="lazy"></figure>
+<p>28行请求URL，35行利用到json.NewDeconder来创建一个json流式解码器进行解码，并将结果填充到result中，切记不要忘记关闭，不管什么情况都要记得 <strong>resp.Body.Close()</strong></p>
+<p>最后遍历进行输出</p>
+<figure data-type="image" tabindex="5"><img src="https://belos-pretender.github.io//post-images/1596470789098.png" alt="" loading="lazy"></figure>
+<p>完整代码如下：</p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;encoding/json&quot;
+	&quot;fmt&quot;
+	&quot;net/http&quot;
+	&quot;os&quot;
+)
+
+func main()  {
+
+	const URL=&quot;此处填写你要请求的URL&quot;
+
+	type news struct {
+		Ctime       string
+		Title       string
+		Description string
+		PicUrl      string
+		Url         string
+	}
+
+	type newsResult struct {
+		Code 		int
+		Msg 		string
+		Newslist 	[]news
+	}
+
+	resp, err := http.Get(URL)
+	if err != nil {
+		os.Exit(1)
+	}
+
+
+	var result newsResult
+	if err := json.NewDecoder(resp.Body).Decode(&amp;result); err != nil{
+		resp.Body.Close()
+	}
+	resp.Body.Close()
+
+	fmt.Printf(&quot;%d\n&quot;, result.Code)
+
+	for _, item := range result.Newslist{
+		fmt.Printf(&quot;%s %s %s\n&quot;, item.Ctime, item.Title, item.Url)
+	}
+
+}
+</code></pre>
+]]></content>
+    </entry>
 </feed>
